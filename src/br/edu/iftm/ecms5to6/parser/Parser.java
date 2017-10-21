@@ -52,6 +52,7 @@ public class Parser {
 			Escodegen.generate(fileNewJSON, fileNewJS);
 			
 			System.out.println("Arquivo exportado!!");
+			System.out.println("\nPrograma finalizado.");
 		}
 	}
 
