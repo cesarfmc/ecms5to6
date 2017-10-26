@@ -39,8 +39,9 @@ public class Parser {
 			JsonReader jsonReader = Json.createReader(new FileReader(fileJSON));
 			JsonObject jsonObject = jsonReader.readObject();
 				
+			System.out.println(jsonObject.toString());
 			//código para o matheus adicionar
-			
+			System.out.println(jsonObject.toString());
 			
 			//Gerar o novo arquivo json
 			File fileNewJSON = new File(fileJS.getPath().substring(0, fileJS.getPath().length() - 3) + "_6.json");
