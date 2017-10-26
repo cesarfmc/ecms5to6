@@ -53,7 +53,8 @@ public class Parser {
 			File fileNewJS = new File(fileJS.getPath().substring(0, fileJS.getPath().length() - 3) + "_6.js");
 			//Escodegen.generate(fileNewJSON, fileNewJS);
 			
-			System.out.println("fim");
+			System.out.println("Arquivo exportado!!");
+			System.out.println("\nPrograma finalizado.");
 		}
 	}
 
