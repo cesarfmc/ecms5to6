@@ -15,13 +15,13 @@
             "operator": "*",
             "left": {
               "type": "Literal",
-              "value": 6,
-              "raw": "6"
+              "value": 8,
+              "raw": "8"
             },
             "right": {
               "type": "Literal",
-              "value": 7,
-              "raw": "7"
+              "value": 9,
+              "raw": "9"
             }
           }
         }
