@@ -39,7 +39,9 @@ public class Parser {
 			JsonReader jsonReader = Json.createReader(new FileReader(fileJSON));
 			JsonObject jsonObject = jsonReader.readObject();
 				
-			   
+			//código para o matheus adicionar
+			
+			
 			//Gerar o novo arquivo json
 			File fileNewJSON = new File(fileJS.getPath().substring(0, fileJS.getPath().length() - 3) + "_6.json");
 			JsonWriter jsonWriter = Json.createWriter(new FileWriter(fileNewJSON));
@@ -49,7 +51,7 @@ public class Parser {
 			//Gerar o novo arquivo.js
 			//Responsabilidade do Cesar
 			File fileNewJS = new File(fileJS.getPath().substring(0, fileJS.getPath().length() - 3) + "_6.js");
-			Escodegen.generate(fileNewJSON, fileNewJS);
+			//Escodegen.generate(fileNewJSON, fileNewJS);
 			
 			System.out.println("fim");
 		}
