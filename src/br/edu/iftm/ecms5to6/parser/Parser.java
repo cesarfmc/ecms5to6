@@ -8,6 +8,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import javax.json.Json;
+import javax.json.JsonArray;
 import javax.json.JsonObject;
 import javax.json.JsonReader;
 import javax.json.JsonValue;
@@ -40,6 +41,35 @@ public class Parser {
 			JsonObject jsonObject = jsonReader.readObject();
 				
 			System.out.println(jsonObject.toString());
+			
+	         /*
+	     
+	        JsonArray body= jsonObject.getJsonArray("body");
+			JsonArray declarations= body.getJsonArray(0);
+			JsonObject id= declarations.getJsonObject(0);
+			
+			id.put("name", "resposta");
+			id.replace("name", "resposta");
+			
+			JsonObject init= declarations.getJsonObject(1);
+			JsonObject left= init.getJsonObject("left");
+			
+			left.put("value", 8);
+			left.repalce("value", 8);
+			
+			left.put("raw", 8);
+			left.repalce("raw", 8);
+			
+			JsonObject right= init.getJsonObject("right");
+			
+			right.put("value", 9);
+			right.repalce("value", 9);
+			
+			right.put("raw", 9);
+			right.repalce("raw", 9);
+	          
+	         */
+			
 			//código para o matheus adicionar
 			System.out.println(jsonObject.toString());
 			
