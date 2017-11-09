@@ -3,6 +3,7 @@ package br.edu.iftm.ecms5to6.parser;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -11,6 +12,7 @@ import javax.json.Json;
 import javax.json.JsonArray;
 import javax.json.JsonObject;
 import javax.json.JsonReader;
+import javax.json.JsonString;
 import javax.json.JsonValue;
 import javax.json.JsonWriter;
 
@@ -38,45 +40,39 @@ public class Parser {
 			
 			//Carregar a arquivo JSON para objetos Java
 			JsonReader jsonReader = Json.createReader(new FileReader(fileJSON));
-			JsonObject jsonObject = jsonReader.readObject();
+			JsonObject jsonObjectMain = jsonReader.readObject();
 				
-			System.out.println(jsonObject.toString());
+			System.out.println(jsonObjectMain.toString());
 			
-	         /*
+	        //
 	     
-	        JsonArray body= jsonObject.getJsonArray("body");
-			JsonArray declarations= body.getJsonArray(0);
-			JsonObject id= declarations.getJsonObject(0);
 			
-			id.put("name", "resposta");
-			id.replace("name", "resposta");
-			
-			JsonObject init= declarations.getJsonObject(1);
-			JsonObject left= init.getJsonObject("left");
-			
-			left.put("value", 8);
-			left.repalce("value", 8);
-			
-			left.put("raw", 8);
-			left.repalce("raw", 8);
-			
-			JsonObject right= init.getJsonObject("right");
-			
-			right.put("value", 9);
-			right.repalce("value", 9);
-			
-			right.put("raw", 9);
-			right.repalce("raw", 9);
-	          
-	         */
+	        JsonArray body = jsonObjectMain.getJsonArray("body");
+	        for(JsonValue member: body){
+	        	JsonObject jsonObjectMember1 = (JsonObject)member;
+	        	JsonArray declarations = jsonObjectMember1.getJsonArray("declarations");
+	        	 for(JsonValue declaration: declarations){
+	        		 JsonObject jsonObjectDeclaration1 = (JsonObject)declaration;
+	        		 JsonObject jsonObjectInit = jsonObjectDeclaration1.getJsonObject("init");
+	        		 JsonObject jsonObjectLeft = jsonObjectInit.getJsonObject("left");
+	        		 JsonObject jsonObjectRight = jsonObjectInit.getJsonObject("right");
+	        		 JsonString six = jsonObjectLeft.getJsonString("value");
+	        		 if (six.equals("6")){
+	        			 jsonObjectLeft.replace("value",member);
+	        		 }
+	        	 }
+	        }
+
+	        
+	       
 			
 			//código para o matheus adicionar
-			System.out.println(jsonObject.toString());
+			System.out.println(jsonObjectMain.toString());
 			
 			//Gerar o novo arquivo json
 			File fileNewJSON = new File(fileJS.getPath().substring(0, fileJS.getPath().length() - 3) + "_6.json");
 			JsonWriter jsonWriter = Json.createWriter(new FileWriter(fileNewJSON));
-			jsonWriter.writeObject(jsonObject);
+			jsonWriter.writeObject(jsonObjectMain);
 			jsonWriter.close();
 			
 			//Gerar o novo arquivo.js
