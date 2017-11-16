@@ -11,6 +11,7 @@ import java.util.Set;
 import javax.json.Json;
 import javax.json.JsonArray;
 import javax.json.JsonObject;
+import javax.json.JsonObjectBuilder;
 import javax.json.JsonReader;
 import javax.json.JsonString;
 import javax.json.JsonValue;
@@ -56,48 +57,31 @@ public class Parser {
 			
 			String name= null,operator=null; int valueL=0,valueR=0;
 			
+			JsonObjectBuilder tree = Json.createObjectBuilder();
+			tree = tree.add("type", "Program");
 			JsonArray body1 = jsonObjectMain.getJsonArray("body");
-
+			JsonObjectBuilder tree2 = Json.createObjectBuilder();
 			for(JsonValue member: body1){
-
-				
 				JsonObject jsonObjectMember1 = (JsonObject)member;
-				
-			    typeIn= (String)jsonObjectMember1.getString("type");
-				
-				JsonArray declarations = jsonObjectMember1.getJsonArray("declarations");
-				
-				
-				
-				//System.out.println("declarations: "+declarations);
-
-
-				for(JsonValue declaration: declarations){
-					JsonObject jsonObjectDeclaration1 = (JsonObject)declaration;
-                    
-					typeMiddle1= (String) jsonObjectDeclaration1.getString("type");
-					
-					JsonObject jsonObjectId = jsonObjectDeclaration1.getJsonObject("id");
-					//System.out.println("\n\nId: "+jsonObjectId);
-					typeMiddle2= (String) jsonObjectId.getString("type");
-					name= (String) jsonObjectId.getString("name");
-					JsonObject jsonObjectInit = jsonObjectDeclaration1.getJsonObject("init");
-					//System.out.println("\n\ninit: "+jsonObjectInit);
-				    typeMiddle3= (String) jsonObjectInit.getString("type");
-				    operator= (String) jsonObjectInit.getString("operator");
-					JsonObject jsonObjectLeft = jsonObjectInit.getJsonObject("left");
-					//System.out.println("\n\nleft: "+jsonObjectLeft);
-				    typeMiddle4= (String) jsonObjectLeft.getString("type");
-				    valueL= (int) jsonObjectLeft.getInt("value");
-					JsonObject jsonObjectRight = jsonObjectInit.getJsonObject("right");
-					//System.out.println("\n\nright: "+jsonObjectRight);
-					last= (String) jsonObjectRight.getString("type");
-					valueR= (int) jsonObjectRight.getInt("value");
-					
+				Set<Entry<String,JsonValue>> myset = jsonObjectMember1.entrySet();
+				for (Entry<String, JsonValue> entry : myset) {
+					if (entry.getValue() instanceof JsonArray){
+						System.out.println("JsonArray");
+					}else if (entry.getValue() instanceof JsonObject){
+						System.out.println("JsonObject"); 
+					}
+					else if (entry.getValue() instanceof JsonString){
+						System.out.println("JsonString"); 
+					}else{
+						System.out.println("error");
+					}
+					tree2 = tree2.add(entry.getKey(),entry.getValue());
 				}
-				
-				kind= (String) jsonObjectMember1.getString("kind");
-			}  	
+			}	
+			
+			tree = tree.add("body", Json.createArrayBuilder().add(tree2));
+			JsonObject jsonObjectNew = tree.build();
+			System.out.println(jsonObjectNew);
 		
 			/*
 			 * Para alterar o valor da esquerda altere a variável "valueL";
@@ -117,7 +101,7 @@ public class Parser {
 			
 			// criando a árvore.
 
-			JsonObject tree = Json.createObjectBuilder().add("type", typeOut)
+			/*JsonObject tree3 = Json.createObjectBuilder().add("type", typeOut)
 					.add("body", Json.createArrayBuilder().add(Json.createObjectBuilder()
 							.add("type", typeIn).add("declarations",Json.createArrayBuilder().add(Json.createObjectBuilder()
 									.add("type",typeMiddle1).add("id", Json.createObjectBuilder()
@@ -130,13 +114,13 @@ public class Parser {
 													.add("raw", valueL)).add("right",Json.createObjectBuilder()
 															.add("type",last).add("value",valueR).add("raw",valueR))))).add("kind",kind))).build();
 			System.out.println("\n\ntree: "+tree);
-
+			*/
 			//código para o matheus adicionar
 
 			//Gerar o novo arquivo json
 			File fileNewJSON = new File(fileJS.getPath().substring(0, fileJS.getPath().length() - 3) + "_6.json");
 			JsonWriter jsonWriter = Json.createWriter(new FileWriter(fileNewJSON));
-			jsonWriter.writeObject(jsonObjectMain);
+			jsonWriter.writeObject(jsonObjectNew);
 			jsonWriter.close();
 
 			//Gerar o novo arquivo.js
