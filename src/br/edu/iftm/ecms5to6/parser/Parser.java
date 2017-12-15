@@ -33,7 +33,7 @@ public class Parser {
 
 
 	public void parse() throws Exception {
-
+		
 		File fileJS = new File(filePath);
 		if (fileJS.isFile() && fileJS.getPath().endsWith(".js")) {
 			File fileJSON = new File(fileJS.getPath().substring(0, fileJS.getPath().length() - 3) + ".json");
@@ -116,6 +116,8 @@ public class Parser {
 				}else {
 					tree2 = tree2.add(entry.getKey(),entry.getValue());
 				}
+			}else {
+				tree2 = tree2.add(entry.getKey(),entry.getValue());
 			}
 		}
 		return tree2;
