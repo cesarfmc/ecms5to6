@@ -3,4 +3,4 @@ function Foo(attr){
 	function Action(){
 	}
 }
-var myFoo = new Foo ("foo");
+//var myFoo = new Foo ("foo");
