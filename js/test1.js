@@ -16,3 +16,4 @@ class Foo {
 	//Metodos
 	Action(){} 
 }
+//var myFoo = new Foo ("foo");
