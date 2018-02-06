@@ -60,6 +60,33 @@
       "rest": null,
       "generator": false,
       "expression": false
+    },
+    {
+      "type": "VariableDeclaration",
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "id": {
+            "type": "Identifier",
+            "name": "myFoo"
+          },
+          "init": {
+            "type": "NewExpression",
+            "callee": {
+              "type": "Identifier",
+              "name": "Foo"
+            },
+            "arguments": [
+              {
+                "type": "Literal",
+                "value": "foo",
+                "raw": "\"foo\""
+              }
+            ]
+          }
+        }
+      ],
+      "kind": "var"
     }
   ]
 }
