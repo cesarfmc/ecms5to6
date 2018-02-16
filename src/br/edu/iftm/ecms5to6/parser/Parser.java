@@ -17,7 +17,7 @@ import javax.json.JsonReader;
 import javax.json.JsonString;
 import javax.json.JsonValue;
 import javax.json.JsonWriter;
-import jdk.jfr.events.FileWriteEvent;
+//import jdk.jfr.events.FileWriteEvent;
 import rinoceronte.Escodegen;
 import rinoceronte.Esprima;
 
@@ -26,11 +26,13 @@ public class Parser {
 	private String filePath;
 	private ArrayList<JsonValue> change;
 	private int i;
+	private boolean funcDct;
 
 	public Parser(String filePath) {
 		this.filePath = filePath;
 		this.change = new ArrayList<>();
-		i = 0;
+		this.funcDct= false;
+		this.i= 0;
 	}
 
 	public void parse() throws Exception {
@@ -117,8 +119,13 @@ public class Parser {
 					JsonObjectBuilder tree = Json.createObjectBuilder();
 					tree= buildBody(obj,tree);
 					tree2= tree2.add("body",tree);
-					tree2.add("generator", change.get(++i));
-					tree2.add("expression", change.get(++i)).add("async", false);
+					if(funcDct) {
+						tree2.add("generator", change.get(++i));
+						tree2.add("expression", change.get(++i)).add("async", false);
+					}else {
+						tree2.add("generator", false);
+						tree2.add("expression", false).add("async", false);
+					}
 				} else if (entry.getKey().equals("left")) {
 					if (i < change.size()) {
 						tree2 = tree2.add("params", change.get(i));
@@ -200,16 +207,9 @@ public class Parser {
 			else if (entry.getValue() instanceof JsonString){
 				if(entry.getValue().toString().equals("\"FunctionDeclaration\"")) {
 					tree2 = tree2.add(entry.getKey(),"ExpressionStatement");
+					funcDct= !funcDct;
 				}else {
 					tree2 = tree2.add(entry.getKey(),entry.getValue());	
-				}
-			}else if (entry.getValue() instanceof JsonNumber){
-				if(entry.getValue().toString().equals("6")) {
-					tree2 = tree2.add(entry.getKey(),8);
-				}else if(entry.getValue().toString().equals("7")) {
-					tree2 = tree2.add(entry.getKey(),9);
-				}else {
-					tree2 = tree2.add(entry.getKey(),entry.getValue());
 				}
 			}else if((entry.getKey().equals("generator"))||(entry.getKey().equals("expression"))) {
 				change.add(entry.getValue());
@@ -278,7 +278,11 @@ public class Parser {
 				}
 			}else if (entry.getValue() instanceof JsonObject){
 				if(entry.getKey().toString().equals("id")) {
-					tree2= tree2.add("key", entry.getValue());
+					if(i == 4) {
+						tree2= tree2.add("key", entry.getValue());
+					}else {
+						tree2= tree2.add(entry.getKey(), entry.getValue());
+					}
 				}else if(entry.getKey().toString().equals("body")) {
 				    change.add(entry.getValue());
 					JsonObjectBuilder treeAux= Json.createObjectBuilder();
@@ -295,18 +299,8 @@ public class Parser {
 					tree2 = tree2.add(entry.getKey(),"MethodDefinition");
 				}else if(entry.getValue().toString().equals("\"BlockStatement\"")) {
 					tree2 = tree2.add(entry.getKey(),"FunctionExpression");
-				}else if(entry.getValue().toString().equals("7")) {
-					tree2 = tree2.add(entry.getKey(),"9");
-				}else {
+				}else{
 					tree2 = tree2.add(entry.getKey(),entry.getValue());	
-				}
-			}else if (entry.getValue() instanceof JsonNumber){
-				if(entry.getValue().toString().equals("6")) {
-					tree2 = tree2.add(entry.getKey(),8);
-				}else if(entry.getValue().toString().equals("7")) {
-					tree2 = tree2.add(entry.getKey(),9);
-				}else {
-					tree2 = tree2.add(entry.getKey(),entry.getValue());
 				}
 			}else if(entry.getKey().toString().equals("rest")){
 				tree2 = tree2.add("kind","method");
