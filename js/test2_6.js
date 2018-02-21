@@ -6,3 +6,4 @@ class Foo {
     Action() {
     }
 }
+var myFoo = new Foo('foo');

@@ -3,7 +3,8 @@ class Foo {
 		this.attr = attr;
 		this.Action(); 
 	}
-	Action(){} 
+	Action() {	
+	} 
 }
 var myFoo = new Foo ("foo");
 

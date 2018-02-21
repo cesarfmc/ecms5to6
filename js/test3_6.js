@@ -4,5 +4,9 @@ class Foo {
         this.Action();
     }
     Action() {
+        var x = 10;
+        var y = 20;
+        var z = x + y;
     }
 }
+var myFoo = new Foo('foo');
