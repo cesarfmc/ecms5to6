@@ -113,7 +113,8 @@ public class Parser {
 					} else {
 						JsonObjectBuilder treeAux = Json.createObjectBuilder();
 						JsonObject obj = (JsonObject) change.get(change.size() - i);
-						treeAux= heritage(obj, treeAux);
+					    heritage(obj, treeAux);
+					    //parei aqui
 						tree2 = tree2.add("superClass",change.get(i));
 					}
 				} else {
@@ -226,13 +227,13 @@ public class Parser {
 					treeAux1 = treeAux1.add("arguments", aryAux);
 					tree2 = tree2.add("expression", treeAux1);
 				} else {
-					tree2 = tree2.add(entry.getKey(), buildBody(obj1, treeAux1));
+					treeAux1= buildBody(obj1, treeAux1);
+					tree2 = tree2.add(entry.getKey(), treeAux1);
 				}
 			} else if (entry.getValue() instanceof JsonString) {
 				if (entry.getValue().toString().equals("\"FunctionDeclaration\"")) {
 					tree2 = tree2.add(entry.getKey(), "ExpressionStatement");
 					funcDct = !funcDct;
-				} else if (entry.getValue().toString().equals("\"ExpressionStatement\"")) {
 				} else {
 					tree2 = tree2.add(entry.getKey(), entry.getValue());
 				}
