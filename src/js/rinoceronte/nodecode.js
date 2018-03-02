@@ -1,7 +1,7 @@
 var esprima = require('esprima');
 var escodegen = require('escodegen');
 var fs = require('fs');
-var file = '/home/matheus/ecms5to6/js/test4_6.json';
+var file = '/home/matheus/ecms5to6/js/test6_6.json';
 
 fs.readFile(file, 'utf8', function (err, data) {
   if (err) {
@@ -13,7 +13,7 @@ fs.readFile(file, 'utf8', function (err, data) {
 
 var result = escodegen.generate(obj_pulseconfig);
 
-fs.writeFile("/home/matheus/ecms5to6/js/test4_6.js", result, function(err) {
+fs.writeFile("/home/matheus/ecms5to6/js/test6_6.js", result, function(err) {
     if(err) {
         return console.log(err);
     }

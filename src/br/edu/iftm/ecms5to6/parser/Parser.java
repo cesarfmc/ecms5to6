@@ -56,7 +56,7 @@ public class Parser {
 			JsonObjectBuilder tree2 = Json.createObjectBuilder();
 			JsonObject jsonObjectMember1 = null;
 			JsonArrayBuilder tree3 = Json.createArrayBuilder();
-
+			
 			for (JsonValue member : body1) {
 				jsonObjectMember1 = (JsonObject) member;
 				Set<Entry<String, JsonValue>> myset = jsonObjectMember1.entrySet();
@@ -70,10 +70,20 @@ public class Parser {
 					break;
 				}
 			}
+
 			for (JsonValue member : body1) {
 				jsonObjectMember1 = (JsonObject) member;
-				tree3 = tree3.add(convert(jsonObjectMember1, tree2));
-				if(i==5) {
+				Set<Entry<String, JsonValue>> myset = jsonObjectMember1.entrySet();
+				for (Entry<String, JsonValue> entry : myset) {
+					if (entry.getValue() instanceof JsonString) {
+						if (entry.getValue().toString().equals("\"ExpressionStatement\"")) {
+						}
+						else {
+							jsonObjectMember1 = (JsonObject) member;
+							tree3 = tree3.add(convert(jsonObjectMember1, tree2));
+						}
+					}
+					
 					break;
 				}
 			}
@@ -114,7 +124,6 @@ public class Parser {
 						JsonObjectBuilder treeAux = Json.createObjectBuilder();
 						JsonObject obj = (JsonObject) change.get(change.size() - i);
 					    heritage(obj, treeAux);
-					    //parei aqui
 						tree2 = tree2.add("superClass",change.get(i));
 					}
 				} else {
@@ -314,7 +323,8 @@ public class Parser {
 				} else {
 					JsonObject obj1 = (JsonObject) entry.getValue();
 					JsonObjectBuilder treeAux1 = Json.createObjectBuilder();
-					tree2 = tree2.add(entry.getKey(), buildAction(obj1, treeAux1));
+					treeAux1= buildAction(obj1, treeAux1);
+					tree2 = tree2.add(entry.getKey(),treeAux1);
 				}
 			} else if (entry.getValue() instanceof JsonString) {
 				if (entry.getValue().toString().equals("\"FunctionDeclaration\"")) {
@@ -324,7 +334,9 @@ public class Parser {
 				} else {
 					tree2 = tree2.add(entry.getKey(), entry.getValue());
 				}
-			} else if (entry.getKey().toString().equals("rest")) {
+			} else if(entry.getValue() instanceof JsonNumber) {
+				tree2= tree2.add(entry.getKey(), entry.getValue());
+			}else if (entry.getKey().toString().equals("rest")) {
 				tree2 = tree2.add("kind", "method");
 			} else if (entry.getKey().toString().equals("generator")) {
 				tree2 = tree2.add("static", entry.getValue());
