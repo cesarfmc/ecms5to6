@@ -32,6 +32,13 @@ public class Parser {
 	private int i;
 	private boolean funcDct;
 
+	public Parser(String filePath) {
+		this.filePath = filePath;
+		this.change = new ArrayList<>();
+		this.funcDct = false;
+		this.i = 0;
+	}
+	
 	public Parser(String filePath, String className) {
 		this.filePath = filePath;
 		this.className = className;
