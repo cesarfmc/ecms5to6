@@ -1,12 +1,14 @@
 package br.edu.iftm.ecms5to6.parser;
 
 import java.io.File;
+
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+
 import javax.json.Json;
 import javax.json.JsonArray;
 import javax.json.JsonArrayBuilder;
@@ -17,6 +19,7 @@ import javax.json.JsonReader;
 import javax.json.JsonString;
 import javax.json.JsonValue;
 import javax.json.JsonWriter;
+
 import jdk.jfr.events.FileWriteEvent;
 import rinoceronte.Escodegen;
 import rinoceronte.Esprima;
@@ -24,12 +27,14 @@ import rinoceronte.Esprima;
 public class Parser {
 
 	private String filePath;
+	private String className;
 	private ArrayList<JsonValue> change;
 	private int i;
 	private boolean funcDct;
 
-	public Parser(String filePath) {
+	public Parser(String filePath, String className) {
 		this.filePath = filePath;
+		this.className = className;
 		this.change = new ArrayList<>();
 		this.funcDct = false;
 		this.i = 0;
