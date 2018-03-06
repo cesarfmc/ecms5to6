@@ -3,6 +3,7 @@ var escodegen = require('escodegen');
 var fs = require('fs');
 var file = '/Users/cesarcouto/workspace/ecms5to6/js/test4_6.json';
 
+
 fs.readFile(file, 'utf8', function (err, data) {
   if (err) {
     console.log('Error: ' + err);
