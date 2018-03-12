@@ -11,7 +11,7 @@ import au.com.bytecode.opencsv.CSVReader;
 public class Main {
 
     public static void main(String[] args) throws Exception {
-    	/*ArrayList<Classe> classes = new ArrayList<Classe>();
+    	ArrayList<Classe> classes = new ArrayList<Classe>();
     	CSVReader reader = new CSVReader(new FileReader(args[0]),';');
     	String [] nextLine;
     	while ((nextLine = reader.readNext()) != null) {
@@ -22,8 +22,9 @@ public class Main {
     		Parser p = new Parser(classe.getFile(), classe.getName());
         	p.parse();
 		}
-		*/
+		/*
     	Parser p = new Parser(args[0]);
     	p.parse();
+    	*/
     }
 }
