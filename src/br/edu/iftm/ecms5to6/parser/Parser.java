@@ -28,7 +28,7 @@ import rinoceronte.Esprima;
 public class Parser {
 
 	private String filePath;
-	private String className;
+	private ArrayList<Classe> classes;
 	private ArrayList<JsonValue> change;
 	private int i;
 	private boolean funcDct;
@@ -40,9 +40,9 @@ public class Parser {
 		this.i = 0;
 	}
 	
-	public Parser(String filePath, String className) {
+	public Parser(String filePath, ArrayList<Classe> classes) {
 		this.filePath = filePath;
-		this.className = className;
+		this.classes = classes;
 		this.change = new ArrayList<>();
 		this.funcDct = false;
 		this.i = 0;
