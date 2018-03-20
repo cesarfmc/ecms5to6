@@ -34,7 +34,7 @@ public class Main {
     		Parser p = new Parser(file.getFileName(), file.getClasses());
         	p.parse();
 		}
-		/*
+    	/*
     	Parser p = new Parser(args[0]);
     	p.parse();
     	*/

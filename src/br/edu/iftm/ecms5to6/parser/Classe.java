@@ -12,7 +12,28 @@ public class Classe {
 		this.numberOfAttributes = numberOfAttributes;
 		this.numberOfMethods = numberOfMethods;
 	}
-	
-	
 
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public int getNumberOfAttributes() {
+		return numberOfAttributes;
+	}
+
+	public void setNumberOfAttributes(int numberOfAttributes) {
+		this.numberOfAttributes = numberOfAttributes;
+	}
+
+	public int getNumberOfMethods() {
+		return numberOfMethods;
+	}
+
+	public void setNumberOfMethods(int numberOfMethods) {
+		this.numberOfMethods = numberOfMethods;
+	}
 }
