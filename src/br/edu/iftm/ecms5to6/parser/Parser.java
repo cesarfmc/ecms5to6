@@ -103,9 +103,8 @@ public class Parser {
 								tree3 = tree3.add(jsonObjectMember1);
 							}
 						}else if(entry.getValue().toString().equals("\"FunctionDeclaration\"")) {
-							tree3 = tree3.add(convert(jsonObjectMember1, tree2));
 							if(isClass(jsonObjectMember1)) {
-								
+								tree3 = tree3.add(convert(jsonObjectMember1, tree2));
 							}
 							else {
 								tree3 = tree3.add(jsonObjectMember1);
@@ -507,17 +506,18 @@ public class Parser {
 				JsonArray array = (JsonArray) entry.getValue();
 				for (JsonValue obj : array) {
 					object = (JsonObject) obj;
-					isClass(object);
+					return isClass(object);
 				}
 			} else if (entry.getValue() instanceof JsonObject) {
 
 				if(entry.getKey().equals("id")) {
 					JsonObject obj1 = (JsonObject) entry.getValue();
-					isClass(obj1);	
+					return isClass(obj1);	
 				}
 			} else if (entry.getValue() instanceof JsonString) {
 				if (entry.getKey().toString().equals("name")) {
 					String name= entry.getValue().toString();
+					name = name.replaceAll("\"", "");
 					for(Classe obj : classes) {
 						if(obj.getName().equals(name)) {
 							return true;

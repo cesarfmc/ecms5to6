@@ -1,0 +1,144 @@
+{
+  "type": "Program",
+  "body": [
+    {
+      "type": "FunctionDeclaration",
+      "id": {
+        "type": "Identifier",
+        "name": "Foo"
+      },
+      "params": [
+        {
+          "type": "Identifier",
+          "name": "attr"
+        }
+      ],
+      "defaults": [],
+      "body": {
+        "type": "BlockStatement",
+        "body": [
+          {
+            "type": "ExpressionStatement",
+            "expression": {
+              "type": "AssignmentExpression",
+              "operator": "=",
+              "left": {
+                "type": "MemberExpression",
+                "computed": false,
+                "object": {
+                  "type": "ThisExpression"
+                },
+                "property": {
+                  "type": "Identifier",
+                  "name": "attr"
+                }
+              },
+              "right": {
+                "type": "Identifier",
+                "name": "attr"
+              }
+            }
+          },
+          {
+            "type": "FunctionDeclaration",
+            "id": {
+              "type": "Identifier",
+              "name": "Action"
+            },
+            "params": [],
+            "defaults": [],
+            "body": {
+              "type": "BlockStatement",
+              "body": []
+            },
+            "rest": null,
+            "generator": false,
+            "expression": false
+          }
+        ]
+      },
+      "rest": null,
+      "generator": false,
+      "expression": false
+    },
+    {
+      "type": "FunctionDeclaration",
+      "id": {
+        "type": "Identifier",
+        "name": "sum"
+      },
+      "params": [
+        {
+          "type": "Identifier",
+          "name": "x"
+        },
+        {
+          "type": "Identifier",
+          "name": "y"
+        }
+      ],
+      "defaults": [],
+      "body": {
+        "type": "BlockStatement",
+        "body": [
+          {
+            "type": "ReturnStatement",
+            "argument": {
+              "type": "BinaryExpression",
+              "operator": "+",
+              "left": {
+                "type": "Identifier",
+                "name": "x"
+              },
+              "right": {
+                "type": "Identifier",
+                "name": "y"
+              }
+            }
+          }
+        ]
+      },
+      "rest": null,
+      "generator": false,
+      "expression": false
+    },
+    {
+      "type": "FunctionDeclaration",
+      "id": {
+        "type": "Identifier",
+        "name": "Bar"
+      },
+      "params": [
+        {
+          "type": "Identifier",
+          "name": "attr"
+        }
+      ],
+      "defaults": [],
+      "body": {
+        "type": "BlockStatement",
+        "body": [
+          {
+            "type": "FunctionDeclaration",
+            "id": {
+              "type": "Identifier",
+              "name": "Action2"
+            },
+            "params": [],
+            "defaults": [],
+            "body": {
+              "type": "BlockStatement",
+              "body": []
+            },
+            "rest": null,
+            "generator": false,
+            "expression": false
+          }
+        ]
+      },
+      "rest": null,
+      "generator": false,
+      "expression": false
+    }
+  ]
+}
