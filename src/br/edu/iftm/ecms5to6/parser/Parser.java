@@ -114,7 +114,6 @@ public class Parser {
 							tree3 = tree3.add(jsonObjectMember1);
 						}
 					}
-					break;
 				}
 			}
 			tree = tree.add("body", tree3);
@@ -154,11 +153,19 @@ public class Parser {
 					JsonArray array = (JsonArray) entry.getValue();
 					for (JsonValue obj : array) {
 						object = (JsonObject) obj;
-						//if ((i == 0) || (i == 2)) {
-							aryAux = aryAux.add(convert(object, treeAux));
-						//} else {
-						//	aryAux = aryAux.add(buildAction(object, treeAux));
-						//}
+						Set<Entry<String, JsonValue>> set = object.entrySet();
+						for (Entry<String, JsonValue> each : set) {
+							if(each.getValue().toString().equals("\"FunctionDeclaration\"")) {
+								if(isClass(object)) {
+									aryAux = aryAux.add(convert(object, treeAux));
+								}else {
+									aryAux = aryAux.add(object);
+								}
+							}else {
+								aryAux = aryAux.add(convert(object, treeAux));
+							}
+							break;
+						}
 					}
 					tree2 = tree2.add(entry.getKey(), aryAux);
 				}
@@ -285,7 +292,7 @@ public class Parser {
 				if (entry.getValue().toString().equals("\"FunctionDeclaration\"")) {
 					tree2 = tree2.add(entry.getKey(), "ExpressionStatement");
 					funcDct = !funcDct;
-				} else {
+				}else {
 					tree2 = tree2.add(entry.getKey(), entry.getValue());
 				}
 			} else if ((entry.getKey().equals("generator")) || (entry.getKey().equals("expression"))) {
