@@ -113,7 +113,10 @@ public class Parser {
 						else {							
 							tree3 = tree3.add(jsonObjectMember1);
 						}
+					}else {
+						tree3 = tree3.add(jsonObjectMember1);	
 					}
+					break;
 				}
 			}
 			tree = tree.add("body", tree3);
@@ -162,7 +165,7 @@ public class Parser {
 									aryAux = aryAux.add(object);
 								}
 							}else {
-								aryAux = aryAux.add(convert(object, treeAux));
+								aryAux = aryAux.add(object);
 							}
 							break;
 						}

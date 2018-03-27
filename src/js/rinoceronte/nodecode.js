@@ -1,7 +1,7 @@
 var esprima = require('esprima');
 var escodegen = require('escodegen');
 var fs = require('fs');
-var file = '/home/matheus/ecms5to6/js/test7_6.json';
+var file = '/home/matheus/Projetos/algorithms.js/data_structures/linked_list_6.json';
 
 
 fs.readFile(file, 'utf8', function (err, data) {
@@ -14,7 +14,7 @@ fs.readFile(file, 'utf8', function (err, data) {
 
 var result = escodegen.generate(obj_pulseconfig);
 
-fs.writeFile("/home/matheus/ecms5to6/js/test7_6_after.js", result, function(err) {
+fs.writeFile("/home/matheus/Projetos/algorithms.js/data_structures/linked_list_after.js", result, function(err) {
     if(err) {
         return console.log(err);
     }
