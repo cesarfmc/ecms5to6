@@ -31,7 +31,6 @@ public class Parser {
 	private ArrayList<Classe> classes;
 	private ArrayList<JsonValue> change;
 	private int i;
-	private boolean check;
 	private boolean funcDct;
 
 	public Parser(String filePath) {
@@ -77,10 +76,7 @@ public class Parser {
 				for (Entry<String, JsonValue> entry : myset) {
 					if (entry.getValue() instanceof JsonString) {
 						if (entry.getValue().toString().equals("\"ExpressionStatement\"")) {
-							check= false;
-							JsonObjectBuilder treeAux= Json.createObjectBuilder();
-							checkHeritage(jsonObjectMember1, treeAux);
-							if(check) {
+							if(checkHeritage(jsonObjectMember1)) {
 								change.add(jsonObjectMember1);
 								i++;
 							}
@@ -95,10 +91,7 @@ public class Parser {
 				for (Entry<String, JsonValue> entry : myset) {
 					if (entry.getValue() instanceof JsonString) {
 						if (entry.getValue().toString().equals("\"ExpressionStatement\"")) {
-							check = false;
-							JsonObjectBuilder treeAux= Json.createObjectBuilder();
-							checkHeritage(jsonObjectMember1, treeAux);
-							if(check) {
+							if(checkHeritage(jsonObjectMember1)) {
 							}else {
 								tree3 = tree3.add(jsonObjectMember1);
 							}
@@ -474,36 +467,28 @@ public class Parser {
 		return tree2;
 	}
 
-	private JsonObjectBuilder checkHeritage(JsonObject jsonObject, JsonObjectBuilder tree2) {
+	private boolean checkHeritage(JsonObject jsonObject) {
 
 		Set<Entry<String, JsonValue>> myset = jsonObject.entrySet();
 		for (Entry<String, JsonValue> entry : myset) {
 			if (entry.getValue() instanceof JsonArray) {
 				JsonObject object = null;
-				JsonArrayBuilder aryAux = Json.createArrayBuilder();
-				JsonObjectBuilder treeAux = Json.createObjectBuilder();
 				JsonArray array = (JsonArray) entry.getValue();
 				for (JsonValue obj : array) {
 					object = (JsonObject) obj;
-					aryAux = aryAux.add(checkHeritage(object, treeAux));
+					return checkHeritage(object);
 				}
-				tree2 = tree2.add(entry.getKey(), aryAux);
 			} else if (entry.getValue() instanceof JsonObject) {
 				JsonObject obj1 = (JsonObject) entry.getValue();
-				JsonObjectBuilder treeAux1 = Json.createObjectBuilder();
-				treeAux1= checkHeritage(obj1,treeAux1);
-				tree2 = tree2.add(entry.getKey(), entry.getValue());
+				return checkHeritage(obj1);
 
 			} else if (entry.getValue() instanceof JsonString) {
-				if (entry.getValue().toString().equals("\"prototype\"")) {
-					check= true;
-					return tree2;
-				} else {
-					tree2 = tree2.add(entry.getKey(), entry.getValue());
+				 if (entry.getValue().toString().equals("\"create\"")) {
+				return true;
 				}
 			}
 		}
-		return tree2;
+		return false;
 	}
 
 	private boolean isClass(JsonObject jsonObject) {
