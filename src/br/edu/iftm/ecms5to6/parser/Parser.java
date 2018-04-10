@@ -54,7 +54,7 @@ public class Parser {
 		if (fileJS.isFile() && fileJS.getPath().endsWith(".js")) {
 			File fileJSON = new File(fileJS.getPath().substring(0, fileJS.getPath().length() - 3) + ".json");
 			// Gerar arquivo json
-			Esprima.parse(fileJS, fileJSON);
+			//Esprima.parse(fileJS, fileJSON);
 
 			// Carregar o arquivo JSON para objetos Java
 			JsonReader jsonReader = Json.createReader(new FileReader(fileJSON));

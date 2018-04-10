@@ -36,8 +36,20 @@ console.log(content);
 
 var ast = esprima.parse(content, {range: true, tokens: true, comment: true}); 
 
+var result = JSON.stringify(ast, null, 2);
+
+fs.writeFile("/Volumes/HD2/ic/Projetos/algorithms.js/data_structures/bst.json", result, function(err) {
+    if(err) {
+        return console.log(err);
+    }
+
+    console.log("The file was saved!");
+}); 
+
+
 
 ast  = es.attachComments(ast, ast.comments, ast.tokens);
+
 var result = escodegen.generate(ast, {comment: true});
 
 fs.writeFile("/Volumes/HD2/ic/Projetos/algorithms.js/data_structures/bst_6.js", result, function(err) {
