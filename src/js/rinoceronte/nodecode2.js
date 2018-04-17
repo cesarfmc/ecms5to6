@@ -9,10 +9,11 @@ fs.readFile(file, 'utf8', function (err, data) {
     console.log('Error: ' + err);
     return;
   }
-  obj_pulseconfig = JSON.parse(data);
+  ast = JSON.parse(data);
 });
 
-var result = escodegen.generate(obj_pulseconfig);
+ast = escodegen.attachComments(ast, ast.comments, ast.tokens);
+var result = escodegen.generate(ast,  {comment: true});
 
 fs.writeFile("/Volumes/HD2/ic/Projetos/algorithms.js/data_structures/bst_6.js", result, function(err) {
     if(err) {
