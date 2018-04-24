@@ -27,44 +27,26 @@ public class Escodegen {
 
     public static void generate(File fileJSON, File fileJS) throws ScriptException, IOException, NoSuchMethodException {
     	
-    	/*ScriptEngineManager factory = new ScriptEngineManager();
-        ScriptEngine engine = factory.getEngineByName("nashorn");
-        ScriptContext context = engine.getContext();
-
-        
-      
-        engine.eval(readFile("src/js/rinoceronte/escodegen.js"), context);
-       
-        
-        Invocable inv = (Invocable) engine;
-        Object escodegen = engine.get("Function");
-      
-        String code = "{type: 'BinaryExpression',operator: '+',left: { type: 'Literal', value: 40 },right: { type: 'Literal', value: 2 }}";
-        Object tree = inv.invokeMethod(escodegen, "generate", code);
-        
-        System.out.println("Code:"+(String) tree);
-        */
     	ScriptEngineManager manager = new ScriptEngineManager();
         ScriptEngine engine = manager.getEngineByName("nashorn");
         ScriptContext context = engine.getContext();
-        engine.eval(readFile("/Users/cesarcouto/workspace/ecms5to6/src/js/rinoceronte/esprima.js"), context);
         Invocable inv = (Invocable) engine;
-        Object esprima = engine.get("esprima");
-        engine.eval("args = {range: true, tokens: true, comment: true}");
-        Object resultEsprima = inv.invokeMethod(esprima, "parse", "//comment here\nvar answer = 42;", engine.eval("args"));
-        Object JSON = engine.get("JSON");
-        String json = (String) inv.invokeMethod(JSON, "stringify", resultEsprima, null, 2);
-        System.out.println(json);
         
-        engine.eval(readFile("/Users/cesarcouto/workspace/ecms5to6/src/js/rinoceronte/escodegen.browser.js"), context);
+        engine.eval(readFile("src/js/rinoceronte/escodegen.browser.js"), context);
         Object escodegen = engine.get("escodegen");
-        engine.put("ast", resultEsprima);
-        resultEsprima = inv.invokeMethod(escodegen, "attachComments", engine.eval("ast"), engine.eval("ast.comments"),engine.eval("ast.tokens"));
+        Object JSON = engine.get("JSON");
+        Object ast = inv.invokeMethod(JSON, "parse", readFile(fileJSON.getPath()));
+        engine.put("ast", ast);
+        ast = inv.invokeMethod(escodegen, "attachComments", engine.eval("ast"), engine.eval("ast.comments"),engine.eval("ast.tokens"));
         engine.eval("args2 = {comment: true}");
-        Object resultEscodegen = inv.invokeMethod(escodegen, "generate", resultEsprima, engine.eval("args2"));
-        System.out.println(resultEscodegen);
-    	
-    }
+        Object resultEscodegen = inv.invokeMethod(escodegen, "generate", ast, engine.eval("args2"));
+        
+        FileOutputStream fout = new FileOutputStream(fileJS);
+     	byte[] contentInBytes = resultEscodegen.toString().getBytes();
+     	fout.write(contentInBytes);
+     	fout.flush();
+     	fout.close();
+     }
     
 
 }

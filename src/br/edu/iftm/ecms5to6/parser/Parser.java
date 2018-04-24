@@ -121,9 +121,8 @@ public class Parser {
 			jsonWriter.close();
 
 			// Gerar o novo arquivo.js
-			// Responsabilidade do Matheus
-			//File fileNewJS = new File(fileJS.getPath().substring(0, fileJS.getPath().length() - 3) + "_6.js");
-			//Escodegen.generate(fileNewJSON, fileNewJS);
+			File fileNewJS = new File(fileJS.getPath().substring(0, fileJS.getPath().length() - 3) + "_6.js");
+			Escodegen.generate(fileNewJSON, fileNewJS);
 
 			System.out.println("\n\nArquivo exportado!");
 			System.out.println("\nPrograma finalizado.");
