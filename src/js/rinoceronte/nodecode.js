@@ -1,7 +1,7 @@
 var esprima = require('esprima');
 var escodegen = require('escodegen');
 var fs = require('fs');
-var file = '/home/matheus/Projetos/algorithms.js/data_structures/bst_6.json';
+var file = '/home/matheus/Projetos/algorithms.js/data_structures/bst_Alterado_6.json';
 
 
 fs.readFile(file, 'utf8', function (err, data) {
@@ -9,16 +9,16 @@ fs.readFile(file, 'utf8', function (err, data) {
     console.log('Error: ' + err);
     return;
   }
-  obj_pulseconfig = JSON.parse(data);
+  ast = JSON.parse(data);
 });
 
-var result = escodegen.generate(obj_pulseconfig);
+ast = escodegen.attachComments(ast, ast.comments, ast.tokens);
+var result = escodegen.generate(ast,  {comment: true});
 
-fs.writeFile("/home/matheus/Projetos/algorithms.js/data_structures/bst_6_after.js", result, function(err) {
+fs.writeFile("/home/matheus/Área de Trabalho/stack_Alterado_6.js", result, function(err) {
     if(err) {
         return console.log(err);
     }
 
     console.log("The file was saved!");
 }); 
-

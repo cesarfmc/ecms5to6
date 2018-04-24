@@ -20,6 +20,7 @@ import javax.json.JsonReader;
 import javax.json.JsonString;
 import javax.json.JsonValue;
 import javax.json.JsonWriter;
+import javax.swing.JOptionPane;
 
 //import jdk.jfr.events.FileWriteEvent;
 import rinoceronte.Escodegen;
@@ -65,27 +66,10 @@ public class Parser {
 			System.out.println("Im:  " + jsonObjectMain);
 
 			JsonObjectBuilder tree2 = Json.createObjectBuilder();
-			JsonObject jsonObjectMember1 = null;
 			JsonArrayBuilder tree3 = Json.createArrayBuilder();
 
 			Set<Entry<String, JsonValue>> myset = jsonObjectMain.entrySet();
-			for (Entry<String, JsonValue> entry : myset) {
-				if(entry.getValue() instanceof JsonObject ) {
-					jsonObjectMember1 = (JsonObject) entry.getValue();
-					Set<Entry<String, JsonValue>> myset2 = jsonObjectMember1.entrySet();
-					for (Entry<String, JsonValue> entry2 : myset2) {
-						if (entry.getValue() instanceof JsonString) {
-							if (entry2.getValue().toString().equals("\"ExpressionStatement\"")) {
-								if(checkHeritage(jsonObjectMember1)) {
-									change.add(jsonObjectMember1);
-									i++;
-								}
-							}
-						}
-						break;
-					}
-				}
-			}
+
 			for (Entry<String, JsonValue> entry : myset) {
 				if(entry.getValue() instanceof JsonArray) {
 					if(entry.getKey().toString().equals("body")) {
@@ -95,26 +79,28 @@ public class Parser {
 							object = (JsonObject) obj;
 							Set<Entry<String, JsonValue>> myset2 = object.entrySet();
 							for (Entry<String, JsonValue> entry2 : myset2) {
-								if (entry2.getValue() instanceof JsonString) {
-									if (entry2.getValue().toString().equals("\"ExpressionStatement\"")) {
-										if(checkHeritage(object)) {
-										}else {
-											tree3 = tree3.add(object);
-										}
-									}else if(entry2.getValue().toString().equals("\"FunctionDeclaration\"")) {
-										if(isClass(object)) {
-											tree3 = tree3.add(convert(object, tree2));
-										}
-										else {
-											tree3 = tree3.add(object);
-										}
-									}else {							
+								if (entry2.getValue().toString().equals("\"ExpressionStatement\"")) {
+									if(checkHeritage(object)) {
+										
+									}else {
 										tree3 = tree3.add(object);
+										break;
 									}
+								}else if(entry2.getValue().toString().equals("\"FunctionDeclaration\"")) {
+									if(isClass(object)) {
+										tree3 = tree3.add(convert(object, tree2));
+										break;
+									}
+									else {
+										tree3 = tree3.add(object);
+										break;
+									}
+								}else if(entry2.getKey().equals("range")) {
+
 								}else {
-									tree3 = tree3.add(object);	
+									tree3 = tree3.add(object);
+									break;
 								}
-								break;
 							}	
 						}
 						tree = tree.add("body", tree3);
@@ -129,14 +115,14 @@ public class Parser {
 			System.out.println("Out: " + jsonObjectNew);
 
 			// Gerar o novo arquivo json
-			File fileNewJSON = new File(fileJS.getPath().substring(0, fileJS.getPath().length() - 3) + "_6.json");
+			File fileNewJSON = new File(fileJS.getPath().substring(0, fileJS.getPath().length() - 3) + "_Alterado_6.json");
 			JsonWriter jsonWriter = Json.createWriter(new FileWriter(fileNewJSON));
 			jsonWriter.writeObject(jsonObjectNew);
 			jsonWriter.close();
 
 			// Gerar o novo arquivo.js
 			// Responsabilidade do Matheus
-			File fileNewJS = new File(fileJS.getPath().substring(0, fileJS.getPath().length() - 3) + "_6.js");
+			//File fileNewJS = new File(fileJS.getPath().substring(0, fileJS.getPath().length() - 3) + "_6.js");
 			//Escodegen.generate(fileNewJSON, fileNewJS);
 
 			System.out.println("\n\nArquivo exportado!");
@@ -167,13 +153,17 @@ public class Parser {
 							if(each.getValue().toString().equals("\"FunctionDeclaration\"")) {
 								if(isClass(object)) {
 									aryAux = aryAux.add(convert(object, treeAux));
+									break;
 								}else {
 									aryAux = aryAux.add(object);
+									break;
 								}
+							}else if(each.getKey().equals("range")){
+
 							}else {
 								aryAux = aryAux.add(object);
+								break;
 							}
-							break;
 						}
 					}
 					tree2 = tree2.add(entry.getKey(), aryAux);
@@ -486,7 +476,7 @@ public class Parser {
 		for (Entry<String, JsonValue> entry : myset) {
 			if (entry.getValue() instanceof JsonArray) {
 				if(entry.getKey().toString().equals("range")) {
-					
+
 				}else {
 					JsonObject object = null;
 					JsonArray array = (JsonArray) entry.getValue();
