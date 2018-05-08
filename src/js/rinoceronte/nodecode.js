@@ -15,7 +15,7 @@ fs.readFile(file, 'utf8', function (err, data) {
 ast = escodegen.attachComments(ast, ast.comments, ast.tokens);
 var result = escodegen.generate(ast,  {comment: true});
 
-fs.writeFile("/home/matheus/Área de Trabalho/stack_Alterado_6.js", result, function(err) {
+fs.writeFile("/home/matheus/Projetos/algorithms.js/data_structures/bst_test_6.json", result, function(err) {
     if(err) {
         return console.log(err);
     }

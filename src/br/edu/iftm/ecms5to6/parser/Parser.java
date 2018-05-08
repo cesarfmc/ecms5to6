@@ -32,7 +32,7 @@ public class Parser {
 	private ArrayList<Classe> classes;
 	private ArrayList<JsonValue> change;
 	private int i;
-	private boolean funcDct;
+	private boolean funcDct,flag;
 
 	public Parser(String filePath) {
 		this.filePath = filePath;
@@ -88,6 +88,7 @@ public class Parser {
 									}
 								}else if(entry2.getValue().toString().equals("\"FunctionDeclaration\"")) {
 									if(isClass(object)) {
+										flag = true;
 										tree3 = tree3.add(convert(object, tree2));
 										break;
 									}
@@ -151,14 +152,21 @@ public class Parser {
 						for (Entry<String, JsonValue> each : set) {
 							if(each.getValue().toString().equals("\"FunctionDeclaration\"")) {
 								if(isClass(object)) {
+									flag = true;
 									aryAux = aryAux.add(convert(object, treeAux));
 									break;
 								}else {
 									aryAux = aryAux.add(object);
 									break;
 								}
+							}else if(each.getValue().toString().equals("\"ExpressionStatement\"") && (flag)){
+								aryAux = aryAux.add(convert(object, treeAux));
+								flag = false;
+								break;
 							}else if(each.getKey().equals("range")){
-
+								
+							}else  if(each.getValue().toString().equals("\"ExpressionStatement\"")){
+								break;
 							}else {
 								aryAux = aryAux.add(object);
 								break;
@@ -234,7 +242,9 @@ public class Parser {
 		for (Entry<String, JsonValue> entry : myset) {
 			if (entry.getValue() instanceof JsonArray) {
 				if (entry.getKey().toString().equals("params")) {
-				} else if (entry.getKey().toString().equals("defaults")) {
+				}else if (entry.getKey().toString().equals("range")) {
+						
+				}else if (entry.getKey().toString().equals("defaults")) {
 				} else if (entry.getKey().toString().equals("arguments")) {
 					JsonObject object = null;
 					JsonArrayBuilder aryAux = Json.createArrayBuilder();

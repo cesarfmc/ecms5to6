@@ -1,53 +1,109 @@
 {
+  "range": [
+    0,
+    64
+  ],
   "type": "Program",
   "body": [
     {
+      "range": [
+        0,
+        64
+      ],
       "type": "FunctionDeclaration",
       "id": {
+        "range": [
+          9,
+          12
+        ],
         "type": "Identifier",
         "name": "Foo"
       },
       "params": [
         {
+          "range": [
+            13,
+            17
+          ],
           "type": "Identifier",
           "name": "attr"
         }
       ],
       "defaults": [],
       "body": {
+        "range": [
+          18,
+          64
+        ],
         "type": "BlockStatement",
         "body": [
           {
+            "range": [
+              22,
+              39
+            ],
             "type": "ExpressionStatement",
             "expression": {
+              "range": [
+                22,
+                38
+              ],
               "type": "AssignmentExpression",
               "operator": "=",
               "left": {
+                "range": [
+                  22,
+                  31
+                ],
                 "type": "MemberExpression",
                 "computed": false,
                 "object": {
+                  "range": [
+                    22,
+                    26
+                  ],
                   "type": "ThisExpression"
                 },
                 "property": {
+                  "range": [
+                    27,
+                    31
+                  ],
                   "type": "Identifier",
                   "name": "attr"
                 }
               },
               "right": {
+                "range": [
+                  34,
+                  38
+                ],
                 "type": "Identifier",
                 "name": "attr"
               }
             }
           },
           {
+            "range": [
+              41,
+              62
+            ],
             "type": "FunctionDeclaration",
             "id": {
+              "range": [
+                50,
+                56
+              ],
               "type": "Identifier",
               "name": "Action"
             },
             "params": [],
             "defaults": [],
             "body": {
+              "range": [
+                58,
+                62
+              ],
               "type": "BlockStatement",
               "body": []
             },
@@ -60,6 +116,170 @@
       "rest": null,
       "generator": false,
       "expression": false
+    }
+  ],
+  "comments": [
+    {
+      "type": "Line",
+      "value": "var myFoo = new Foo (\"foo\");",
+      "range": [
+        65,
+        95
+      ]
+    }
+  ],
+  "tokens": [
+    {
+      "type": "Keyword",
+      "value": "function",
+      "range": [
+        0,
+        8
+      ]
+    },
+    {
+      "type": "Identifier",
+      "value": "Foo",
+      "range": [
+        9,
+        12
+      ]
+    },
+    {
+      "type": "Punctuator",
+      "value": "(",
+      "range": [
+        12,
+        13
+      ]
+    },
+    {
+      "type": "Identifier",
+      "value": "attr",
+      "range": [
+        13,
+        17
+      ]
+    },
+    {
+      "type": "Punctuator",
+      "value": ")",
+      "range": [
+        17,
+        18
+      ]
+    },
+    {
+      "type": "Punctuator",
+      "value": "{",
+      "range": [
+        18,
+        19
+      ]
+    },
+    {
+      "type": "Keyword",
+      "value": "this",
+      "range": [
+        22,
+        26
+      ]
+    },
+    {
+      "type": "Punctuator",
+      "value": ".",
+      "range": [
+        26,
+        27
+      ]
+    },
+    {
+      "type": "Identifier",
+      "value": "attr",
+      "range": [
+        27,
+        31
+      ]
+    },
+    {
+      "type": "Punctuator",
+      "value": "=",
+      "range": [
+        32,
+        33
+      ]
+    },
+    {
+      "type": "Identifier",
+      "value": "attr",
+      "range": [
+        34,
+        38
+      ]
+    },
+    {
+      "type": "Punctuator",
+      "value": ";",
+      "range": [
+        38,
+        39
+      ]
+    },
+    {
+      "type": "Keyword",
+      "value": "function",
+      "range": [
+        41,
+        49
+      ]
+    },
+    {
+      "type": "Identifier",
+      "value": "Action",
+      "range": [
+        50,
+        56
+      ]
+    },
+    {
+      "type": "Punctuator",
+      "value": "(",
+      "range": [
+        56,
+        57
+      ]
+    },
+    {
+      "type": "Punctuator",
+      "value": ")",
+      "range": [
+        57,
+        58
+      ]
+    },
+    {
+      "type": "Punctuator",
+      "value": "{",
+      "range": [
+        58,
+        59
+      ]
+    },
+    {
+      "type": "Punctuator",
+      "value": "}",
+      "range": [
+        61,
+        62
+      ]
+    },
+    {
+      "type": "Punctuator",
+      "value": "}",
+      "range": [
+        63,
+        64
+      ]
     }
   ]
 }
