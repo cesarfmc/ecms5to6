@@ -81,7 +81,6 @@ public class Parser {
 							for (Entry<String, JsonValue> entry2 : myset2) {
 								if (entry2.getValue().toString().equals("\"ExpressionStatement\"")) {
 									if(checkHeritage(object)) {
-										
 									}else {
 										tree3 = tree3.add(object);
 										break;
@@ -112,6 +111,7 @@ public class Parser {
 					tree = tree.add(entry.getKey(), entry.getValue());
 				}
 			}
+			//tree = tree.add("sourceType", "script");
 			JsonObject jsonObjectNew = tree.build();
 			System.out.println("Out: " + jsonObjectNew);
 
@@ -156,7 +156,7 @@ public class Parser {
 									aryAux = aryAux.add(convert(object, treeAux));
 									break;
 								}else {
-									aryAux = aryAux.add(object);
+									aryAux = aryAux.add(buildAction(object, treeAux));
 									break;
 								}
 							}else if(each.getValue().toString().equals("\"ExpressionStatement\"") && (flag)){
@@ -243,7 +243,7 @@ public class Parser {
 			if (entry.getValue() instanceof JsonArray) {
 				if (entry.getKey().toString().equals("params")) {
 				}else if (entry.getKey().toString().equals("range")) {
-						
+				tree2 = tree2.add(entry.getKey(), entry.getValue());
 				}else if (entry.getKey().toString().equals("defaults")) {
 				} else if (entry.getKey().toString().equals("arguments")) {
 					JsonObject object = null;
@@ -350,7 +350,9 @@ public class Parser {
 				if (entry.getKey().toString().equals("params")) {
 					change.add(entry.getValue());
 					tree2 = tree2.add("computed", false);
-				} else if (entry.getKey().toString().equals("defaults")) {
+				} else if (entry.getKey().toString().equals("range")) {
+					tree2 = tree2.add(entry.getKey(), entry.getValue());
+				}else if (entry.getKey().toString().equals("defaults")) {
 				} else if (entry.getKey().toString().equals("body")) {
 					tree2 = tree2.addNull("id").add("params", change.get(++i)).add("body", change.get(++i))
 							.add("generator", false).add("expression", false).add("async", false);
