@@ -307,6 +307,8 @@ public class Parser {
 				change.add(entry.getValue());
 			} else if (entry.getKey().toString().equals("computed")) {
 				tree2 = tree2.add(entry.getKey(), entry.getValue());
+			}else if (entry.getKey().toString().equals("value")) {
+				tree2 = tree2.add(entry.getKey(), entry.getValue());
 			}
 		}
 		return tree2;
