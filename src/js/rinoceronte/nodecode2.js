@@ -60,3 +60,26 @@ fs.writeFile("/Volumes/HD2/ic/Projetos/algorithms.js/data_structures/bst_6.js", 
 
     console.log("The file was saved!");
 }); 
+
+
+
+var escodegen = require('escodegen');
+var file = '/Volumes/HD2/ic/Projetos/teste/test1_Alterado_6.json';
+fs.readFile(file, 'utf8', function (err, data) {
+  if (err) {
+    console.log('Error: ' + err);
+    return;
+  }
+  ast = JSON.parse(data);
+});
+ast  = escodegen.attachComments(ast, ast.comments, ast.tokens);
+var result = escodegen.generate(ast, {comment: true});
+fs.writeFile("/Volumes/HD2/ic/Projetos/teste/test1_Alterado_6.js", result, function(err) {
+    if(err) {
+        return console.log(err);
+    }
+
+    console.log("The file was saved!");
+}); 
+
+

@@ -116,7 +116,7 @@ public class Parser {
 			System.out.println("Out: " + jsonObjectNew);
 
 			// Gerar o novo arquivo json
-			File fileNewJSON = new File(fileJS.getPath().substring(0, fileJS.getPath().length() - 3) + "_Alterado_6.json");
+			File fileNewJSON = new File(fileJS.getPath().substring(0, fileJS.getPath().length() - 3) + "_6.json");
 			JsonWriter jsonWriter = Json.createWriter(new FileWriter(fileNewJSON));
 			jsonWriter.writeObject(jsonObjectNew);
 			jsonWriter.close();
