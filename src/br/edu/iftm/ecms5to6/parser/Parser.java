@@ -427,7 +427,10 @@ public class Parser {
 		Set<Entry<String, JsonValue>> myset = jsonObject.entrySet();
 		for (Entry<String, JsonValue> entry : myset) {
 			if (entry.getValue() instanceof JsonArray) {
-				if(entry.getKey().toString().equals("arguments")) {
+				
+				if(entry.getKey().toString().equals("range")) {
+					tree2 = tree2.add(entry.getKey(),entry.getValue());
+				}else if(entry.getKey().toString().equals("arguments")) {
 					JsonObject obj1 = (JsonObject) change.get(change.size()-1);
 					JsonObjectBuilder treeAux1 = Json.createObjectBuilder();
 					treeAux1= buildBody(obj1, treeAux1);
