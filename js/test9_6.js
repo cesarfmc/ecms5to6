@@ -1,5 +1,8 @@
-var Foo = function (attr) {
-    this.attr = attr;
-    function Action() {
+var Foo = class Foo {
+    constructor(attr) {
+        this.attr = attr;
+        this.Action();
+    }
+    Action() {
     }
 };
