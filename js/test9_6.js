@@ -3,6 +3,4 @@ var Foo = class Foo {
         this.attr = attr;
         this.Action();
     }
-    Action() {
-    }
 };

@@ -32,7 +32,7 @@ public class Parser {
 	private ArrayList<Classe> classes;
 	private ArrayList<JsonValue> change;
 	private int i;
-	private boolean funcDct,flag;
+	private boolean funcDct;
 
 	public Parser(String filePath) {
 		this.filePath = filePath;
@@ -79,15 +79,8 @@ public class Parser {
 							object = (JsonObject) obj;
 							Set<Entry<String, JsonValue>> myset2 = object.entrySet();
 							for (Entry<String, JsonValue> entry2 : myset2) {
-								if (entry2.getValue().toString().equals("\"ExpressionStatement\"")) {
-									if(checkHeritage(object)) {
-									}else {
-										tree3 = tree3.add(object);
-										break;
-									}
-								}else if(entry2.getValue().toString().equals("\"FunctionDeclaration\"")) {
+								if(entry2.getValue().toString().equals("\"FunctionDeclaration\"")) {
 									if(isClass(object)) {
-										flag = true;
 										tree3 = tree3.add(convert(object, tree2));
 										break;
 									}
@@ -101,13 +94,14 @@ public class Parser {
 										tree3 = tree3.add(buildVariableClass(object, tree2));
 										break;
 									}else {
+										change.remove(change.size() - 1);
 										tree3 = tree3.add(object);
 										break;
 									}
 								}else if(entry2.getKey().equals("range")) {
 
 								}else {
-									tree3 = tree3.add(object);
+									tree3 = tree3.add(breakInPieces(object, tree2));
 									break;
 								}
 							}	
@@ -160,7 +154,6 @@ public class Parser {
 						for (Entry<String, JsonValue> each : set) {
 							if(each.getValue().toString().equals("\"FunctionDeclaration\"")) {
 								if(isClass(object)) {
-									flag = true;
 									aryAux = aryAux.add(convert(object, treeAux));
 									break;
 								}else {
@@ -177,6 +170,7 @@ public class Parser {
 								break;
 							}
 						}
+						break;
 					}
 					tree2 = tree2.add(entry.getKey(), aryAux);
 				}
@@ -495,34 +489,6 @@ public class Parser {
 		return tree2;
 	}
 
-	private boolean checkHeritage(JsonObject jsonObject) {
-
-		Set<Entry<String, JsonValue>> myset = jsonObject.entrySet();
-		for (Entry<String, JsonValue> entry : myset) {
-			if (entry.getValue() instanceof JsonArray) {
-				if(entry.getKey().toString().equals("range")) {
-
-				}else {
-					JsonObject object = null;
-					JsonArray array = (JsonArray) entry.getValue();
-					for (JsonValue obj : array) {
-						object = (JsonObject) obj;
-						return checkHeritage(object);
-					}
-				}
-			} else if (entry.getValue() instanceof JsonObject) {
-				JsonObject obj1 = (JsonObject) entry.getValue();
-				return checkHeritage(obj1);
-
-			} else if (entry.getValue() instanceof JsonString) {
-				if (entry.getValue().toString().equals("\"create\"")) {
-					return true;
-				}
-			}
-		}
-		return false;
-	}
-
 	private boolean isClass(JsonObject jsonObject) {
 
 		Set<Entry<String, JsonValue>> myset = jsonObject.entrySet();
@@ -531,7 +497,6 @@ public class Parser {
 				if(entry.getKey().toString().equals("range")) {
 				}else {
 					JsonObject object = null;
-					JsonArrayBuilder aryAux = Json.createArrayBuilder();
 					JsonArray array = (JsonArray) entry.getValue();
 					for (JsonValue obj : array) {
 						object = (JsonObject) obj;
@@ -629,4 +594,54 @@ public class Parser {
 		}
 		return tree2;
 	}
+	
+	private JsonObjectBuilder breakInPieces(JsonObject jsonObject, JsonObjectBuilder tree2) {
+
+		Set<Entry<String, JsonValue>> myset = jsonObject.entrySet();
+		for (Entry<String, JsonValue> entry : myset) {
+			if (entry.getValue() instanceof JsonString) {
+				if(entry.getValue().toString().equals("\"FunctionDeclaration\"")) {
+					if(isClass(jsonObject)) {
+						JsonObjectBuilder treeAux1 = Json.createObjectBuilder();
+						return convert(jsonObject, treeAux1);
+					}else {
+						tree2 = tree2.add(entry.getKey(), entry.getValue());
+					}
+				}else if(entry.getValue().toString().equals("\"VariableDeclaration\"")) {
+                   if(isFunctionOnVariable(jsonObject)) {
+                	   JsonObjectBuilder treeAux1 = Json.createObjectBuilder();
+                	   return buildVariableClass(jsonObject, treeAux1);
+					}else {
+						change.remove(change.size() - 1);
+						tree2 = tree2.add(entry.getKey(), entry.getValue());
+					}	
+				}else {
+					tree2 = tree2.add(entry.getKey(), entry.getValue());
+				}
+			} else if (entry.getValue() instanceof JsonArray) {
+				if(entry.getKey().equals("range")) {
+					tree2 = tree2.add(entry.getKey(), entry.getValue());
+				}else if(entry.getKey().equals("params")) {
+					tree2 = tree2.add(entry.getKey(), entry.getValue());
+				}else {
+					JsonArray array = (JsonArray) entry.getValue();
+					JsonArrayBuilder aryAux = Json.createArrayBuilder();
+					JsonObjectBuilder treeAux = Json.createObjectBuilder();
+					JsonObject object = null;
+					for(JsonValue obj : array) {
+					  object = (JsonObject) obj;
+					  aryAux = aryAux.add(breakInPieces(object, treeAux));
+					}
+					tree2 = tree2.add(entry.getKey(),aryAux);
+				}
+			} else if (entry.getValue() instanceof JsonObject) {
+					JsonObjectBuilder treeAux = Json.createObjectBuilder();
+					JsonObject object = (JsonObject) entry.getValue();
+					tree2 = tree2.add(entry.getKey(), breakInPieces(object, treeAux));
+			} else {
+				tree2 = tree2.add(entry.getKey(), entry.getValue());
+			}
+		}
+		return tree2;
+	}	
 }
